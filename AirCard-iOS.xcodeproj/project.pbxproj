@@ -58,9 +58,9 @@
 		30060FC4F88D7BF91C2DCD5E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		4A5DEF8775CFC4F4F6416934 /* CIDRValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIDRValidator.swift; sourceTree = "<group>"; };
 		4FEDEA9266429D393E42942F /* AirliftFFI.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AirliftFFI.xcframework; sourceTree = "<group>"; };
-		50163CB271AAFF785DA3F493 /* TunnelProv.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TunnelProv.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		50163CB271AAFF785DA3F493 /* TunnelProv.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TunnelProv.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		54463055E9590B0A928A2697 /* TendiesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendiesEngine.swift; sourceTree = "<group>"; };
-		55D5D94AD6F7BB50166EAAA8 /* AirCard-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AirCard-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55D5D94AD6F7BB50166EAAA8 /* AirCard-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "AirCard-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DCB2FCB8D4F45B9474A81BC /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		744597D526DCBE3516400831 /* RespringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespringHelper.swift; sourceTree = "<group>"; };
 		81FCB10A2F3D7CEAED486771 /* TendiesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendiesModel.swift; sourceTree = "<group>"; };
@@ -207,9 +207,11 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					0E3055F482CF438EA3978552 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					EAB0B90ABDDCA522112714B2 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -294,7 +296,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ios-app/AirCard-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 26YZHSCWNS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\".\"",
@@ -307,10 +308,9 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = io.github.hliang.aircard;
 				PRODUCT_NAME = "AirCard-iOS";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -318,7 +318,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = TunnelProv/TunnelProv.entitlements;
-				DEVELOPMENT_TEAM = 26YZHSCWNS;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = TunnelProv/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -327,7 +326,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(TUNNEL_BUNDLE_ID)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = io.github.hliang.aircard.TunnelProv;
 				PRODUCT_NAME = TunnelProv;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -339,7 +337,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_BUNDLE_ID = com.mak5er.aircard;
+				APP_BUNDLE_ID = io.github.hliang.aircard;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -371,7 +369,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.3;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -386,7 +384,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -395,7 +393,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				TUNNEL_BUNDLE_ID = com.mak5er.aircard.TunnelProv;
+				TUNNEL_BUNDLE_ID = io.github.hliang.aircard.TunnelProv;
 			};
 			name = Release;
 		};
@@ -403,7 +401,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_BUNDLE_ID = com.mak5er.aircard;
+				APP_BUNDLE_ID = io.github.hliang.aircard;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -435,7 +433,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.3;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -456,7 +454,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -466,7 +464,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				TUNNEL_BUNDLE_ID = com.mak5er.aircard.TunnelProv;
+				TUNNEL_BUNDLE_ID = io.github.hliang.aircard.TunnelProv;
 			};
 			name = Debug;
 		};
@@ -474,7 +472,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = TunnelProv/TunnelProv.entitlements;
-				DEVELOPMENT_TEAM = 26YZHSCWNS;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = TunnelProv/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -483,7 +480,6 @@
 					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "$(TUNNEL_BUNDLE_ID)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = io.github.hliang.aircard.TunnelProv;
 				PRODUCT_NAME = TunnelProv;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -497,7 +493,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "ios-app/AirCard-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 26YZHSCWNS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\".\"",
@@ -510,10 +505,9 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = io.github.hliang.aircard;
 				PRODUCT_NAME = "AirCard-iOS";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

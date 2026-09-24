@@ -1,6 +1,6 @@
 name: AirCard-iOS
 options:
-  bundleIdPrefix: com.mak5er
+  bundleIdPrefix: io.github.hliang
   deploymentTarget:
     iOS: "18.0"
   createIntermediateGroups: true
@@ -8,8 +8,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "1.3"
-    CURRENT_PROJECT_VERSION: "1.3"
+    MARKETING_VERSION: "1.4"
+    CURRENT_PROJECT_VERSION: "1.4"
     TARGETED_DEVICE_FAMILY: "1"
     # AirliftFFI is arm64-only (aws-lc-rs / idevice); drop x86_64 simulator slice.
     EXCLUDED_ARCHS[sdk=iphonesimulator*]: x86_64
@@ -18,8 +18,8 @@ settings:
     # Overridable from the command line (build-ipa.sh) so a paid developer
     # account can use its own identifiers. The extension id must remain a
     # prefix-extension of the app id.
-    APP_BUNDLE_ID: com.mak5er.aircard
-    TUNNEL_BUNDLE_ID: com.mak5er.aircard.TunnelProv
+    APP_BUNDLE_ID: io.github.hliang.aircard
+    TUNNEL_BUNDLE_ID: io.github.hliang.aircard.TunnelProv
 
 targets:
   # Embedded loopback packet tunnel (ported from LocalDevVPN) so the app no
@@ -64,6 +64,9 @@ targets:
         INFOPLIST_FILE: ios-app/Info.plist
         CODE_SIGN_ENTITLEMENTS: ios-app/AirCard-iOS.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # iPhone-only. Must be set at target level so XcodeGen's iOS preset
+        # (which defaults to "1,2") does not override it.
+        TARGETED_DEVICE_FAMILY: "1"
         # idevice's static lib pulls in C++ symbols (aws-lc); link libc++.
         OTHER_LDFLAGS: "-lc++"
         GENERATE_INFOPLIST_FILE: NO
