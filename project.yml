@@ -70,3 +70,23 @@ targets:
         # idevice's static lib pulls in C++ symbols (aws-lc); link libc++.
         OTHER_LDFLAGS: "-lc++"
         GENERATE_INFOPLIST_FILE: NO
+
+# Shared scheme so `AirCard-iOS` is always a fixed, runnable app scheme (used by
+# build-ipa.sh and Xcode). Prevents accidentally running the TunnelProv
+# extension scheme, which would prompt for a host app.
+schemes:
+  AirCard-iOS:
+    build:
+      targets:
+        AirCard-iOS: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
