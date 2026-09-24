@@ -6,7 +6,7 @@ edition = "2024"
 
 [dependencies]
 idevice = { git = "https://github.com/jkcoxson/idevice.git", rev = "7bd551c16c6dd2e058740d85a2d9399a51a776e9", default-features = false }
-futures = { version = "0.3", optional = true }
+futures = { version = "0.3" }
 tracing = { version = "0.1.41" }
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 tracing-appender = { version = "0.2" }
@@ -32,7 +32,7 @@ afc = ["idevice/afc"]
 amfi = ["idevice/amfi"]
 bt_packet_logger = ["idevice/bt_packet_logger"]
 companion_proxy = ["idevice/companion_proxy"]
-core_device = ["idevice/core_device", "dep:futures", "dep:uuid"]
+core_device = ["idevice/core_device", "dep:uuid"]
 core_device_proxy = ["idevice/core_device_proxy"]
 crashreportcopymobile = ["idevice/crashreportcopymobile"]
 debug_proxy = ["idevice/debug_proxy"]

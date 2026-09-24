@@ -27,11 +27,20 @@ idevice = { git = "https://github.com/jkcoxson/idevice.git", rev = "7bd551c16c6d
 ] }
 
 # idevice-ffi for tunnel_create_rppairing + AFC C FFI (re-exports its #[no_mangle] symbols).
-# Use full feature set (matching SideInstaller's proven config) so idevice-ffi's
-# internal cross-module imports resolve. We re-export its #[no_mangle] symbols.
-idevice-ffi = { path = "vendor/idevice-ffi", features = [
-  "full",
+# Minimal feature set: only what `tunnel_provider` and the always-compiled
+# `provider` module need. This avoids pulling `full`, which would enable
+# tss/tunneld/mobileactivationd and drag in reqwest/hyper (an unused HTTP client
+# with Apple signing endpoints). `default-features = false` is required because
+# the crate's default feature set is ["full", "aws-lc"].
+idevice-ffi = { path = "vendor/idevice-ffi", default-features = false, features = [
   "aws-lc",
+  "usbmuxd",          # provider.rs imports crate::usbmuxd unconditionally
+  "tcp",              # TcpProvider
+  "tunnel_tcp_stack", # tunnel_provider / adapter / tcp_object_stack
+  "core_device_proxy",# AdapterHandle used by tunnel_provider
+  "remote_pairing",   # rp_pairing_file
+  "xpc",              # rsd module (RsdHandshakeHandle)
+  "rsd",              # idevice/rsd
 ] }
 
 tokio = { version = "1", features = ["rt-multi-thread", "net", "macros", "fs", "time"] }
