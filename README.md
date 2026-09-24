@@ -20,9 +20,11 @@
 
 AirCard-iOS customizes Apple Wallet card artwork, lock screen passcode dialers, and lock screen wallpapers on device without a jailbreak.
 
-The app communicates with internal system services over a local loopback tunnel (`10.7.0.1` or `127.0.0.1`) provided by LocalDevVPN. File operations are handled by `AirliftFFI`, a Rust library that interfaces with the AirTraffic service.
+The app ships an embedded loopback packet tunnel (`TunnelProv`, ported from LocalDevVPN) so it can reach the device's internal services over `10.7.0.1` / `127.0.0.1` without a separate VPN app. File operations are handled by `AirliftFFI`, a Rust library that interfaces with the AirTraffic service.
 
 > **Compatibility**: AirCard-iOS currently requires **iOS 27.0 or newer (iOS 27+)**.
+
+> **Signing**: The embedded tunnel is a Network Extension and needs the `packet-tunnel-provider` entitlement, which free-account sideloads cannot sign. Build with a **paid Apple Developer account** (`DEVELOPMENT_TEAM=… ./build-ipa.sh`) or install via **TrollStore**. If the entitlement is unavailable the app falls back to an already-connected external LocalDevVPN / WireGuard.
 
 ## Features
 
@@ -53,7 +55,7 @@ The app communicates with internal system services over a local loopback tunnel 
 ## Prerequisites
 
 1. **iOS 27+**: The exploit and paths currently target iOS 27.0 and above.
-2. **LocalDevVPN**: Running in loopback mode (`10.7.0.1` or `127.0.0.1`) so local connections can reach internal device services.
+2. **Loopback tunnel**: Built in (embedded `TunnelProv` extension). Enable it from the Pairing tab — no extra app needed. An external LocalDevVPN / WireGuard is still detected as a fallback.
 3. **Developer Mode pairing**: Pair directly in Settings > Privacy & Security > Developer Mode > Pair with AirCard-iOS, or place an existing pairing plist in the app's documents directory.
 
 ## Installation
@@ -76,7 +78,12 @@ Install `AirCard-iOS.ipa` using your preferred sideloading method:
 ```bash
 git clone https://github.com/mak5er/AirCard-iOS.git
 cd AirCard-iOS
+
+# Unsigned (sign it yourself):
 ./build-ipa.sh
+
+# Signed with your paid Apple Developer account (enables the built-in tunnel):
+DEVELOPMENT_TEAM=ABCDE12345 APP_BUNDLE_ID=com.yourteam.aircard ./build-ipa.sh
 ```
 
 The completed package is written to `build/AirCard-iOS.ipa`.
@@ -101,10 +108,13 @@ AirCard-iOS/
 │   ├── Models.swift           # Image slicing, theme layout, archive packing
 │   ├── PairingController.swift# Bonjour host and pairing sync
 │   ├── NetworkStatus.swift    # VPN loopback detection
+│   ├── BuiltInTunnel.swift    # Embedded loopback tunnel driver
 │   ├── Utilities.swift        # Background keep-alive and helper functions
 │   ├── GrappaHelper.[h,m]     # ATC protocol helpers
 │   ├── Info.plist             # Bundle configuration
 │   └── Assets.xcassets/       # App icons and image sets
+├── TunnelProv/                # Embedded packet-tunnel extension (from LocalDevVPN)
+├── Shared/                    # Constants shared by app and extension
 ├── AirliftFFI.xcframework/    # Compiled arm64 Rust static library and headers
 ├── rust-core/                 # Rust core source code
 ├── project.yml                # XcodeGen project definition

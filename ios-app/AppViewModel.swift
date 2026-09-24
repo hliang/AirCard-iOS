@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import Combine
 import AirliftFFI
 
 // MARK: - AppViewModel
@@ -29,6 +30,12 @@ final class AppViewModel: ObservableObject {
     @Published var wifiUp: Bool = false
     @Published var networkDetail: String = ""
     @Published var deviceIP: String = "10.7.0.1"   // LocalDevVPN default peer
+    @Published var builtInTunnelState: BuiltInTunnel.State = .idle
+    @Published var builtInOnDemand: Bool = false
+
+    /// Embedded loopback packet tunnel (no external LocalDevVPN install needed).
+    let builtInTunnel = BuiltInTunnel.shared
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Tab
     @Published var selectedTab: AppTab = .pairing
@@ -123,6 +130,27 @@ final class AppViewModel: ObservableObject {
         AppViewModel.sharedLogSink = { [weak self] line in
             self?.log.append(line)
         }
+
+        // Reflect the embedded tunnel's status into the network indicators.
+        builtInTunnelState = builtInTunnel.state
+        builtInOnDemand = builtInTunnel.onDemandEnabled
+        builtInTunnel.$state
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self else { return }
+                self.builtInTunnelState = state
+                self.refreshNetworkStatus()
+            }
+            .store(in: &cancellables)
+
+        builtInTunnel.$onDemandEnabled
+            .receive(on: RunLoop.main)
+            .sink { [weak self] enabled in
+                self?.builtInOnDemand = enabled
+            }
+            .store(in: &cancellables)
+
+        Task { await builtInTunnel.refresh() }
     }
 
     // MARK: - Documents directory scanner
@@ -298,9 +326,50 @@ final class AppViewModel: ObservableObject {
     func refreshNetworkStatus() {
         let ip = deviceIP
         let (vpn, wifi, detail) = NetworkStatus.summarize(deviceIP: ip)
-        vpnUp = vpn
+        // The embedded tunnel shows up as a utun interface, but reflect it
+        // explicitly so the indicator is correct even before routing settles.
+        vpnUp = vpn || builtInTunnel.isConnected
         wifiUp = wifi
         networkDetail = detail
+    }
+
+    /// Makes sure a loopback tunnel is available before running the exploit.
+    /// Prefers the embedded tunnel, then falls back to an external
+    /// LocalDevVPN / WireGuard that is already connected.
+    @discardableResult
+    func ensureLoopbackTunnel() async -> Bool {
+        refreshNetworkStatus()
+        if vpnUp { return true }
+
+        if !builtInTunnel.isUnsupported {
+            log.append("Enabling built-in loopback tunnel…")
+            let ok = await builtInTunnel.ensureConnected()
+            refreshNetworkStatus()
+            if ok {
+                log.append("Built-in loopback tunnel is up.")
+                return true
+            }
+            log.append("Built-in tunnel failed: \(builtInTunnel.state.label)")
+        } else {
+            log.append("Built-in tunnel unavailable (Network Extension entitlement missing).")
+        }
+
+        return vpnUp
+    }
+
+    func toggleBuiltInTunnel() {
+        Task {
+            await builtInTunnel.toggle()
+            refreshNetworkStatus()
+        }
+    }
+
+    func disconnectBuiltInTunnel() {
+        builtInTunnel.stop()
+    }
+
+    func setBuiltInOnDemand(_ enabled: Bool) {
+        builtInTunnel.setOnDemand(enabled)
     }
 
     // MARK: - Card management & Live Scanner
@@ -355,54 +424,59 @@ final class AppViewModel: ObservableObject {
 
         let pairingPath = PairingController.pairingFilePath()
 
-        let thread = Thread {
-            var outError: UnsafeMutablePointer<CChar>? = nil
+        Task { [weak self] in
+            guard let self else { return }
+            _ = await self.ensureLoopbackTunnel()
 
-            let rc = pairingPath.withCString { pairC in
-                al_syslog_stream_start(
-                    pairC,
-                    { _, line in
-                        guard let line = line else { return }
-                        let lineStr = String(cString: line)
-                        let lower = lineStr.lowercased()
-                        // Pre-filter on background thread to prevent flooding the main runloop
-                        if lower.contains("pass") ||
-                           lower.contains("card") ||
-                           lower.contains("stockholm") ||
-                           lower.contains("wallet") ||
-                           lower.contains("nanopass") ||
-                           lower.contains("verificationcheck") {
-                            DispatchQueue.main.async {
-                                AppViewModel.shared?.processSyslogLine(lineStr)
+            let thread = Thread {
+                var outError: UnsafeMutablePointer<CChar>? = nil
+
+                let rc = pairingPath.withCString { pairC in
+                    al_syslog_stream_start(
+                        pairC,
+                        { _, line in
+                            guard let line = line else { return }
+                            let lineStr = String(cString: line)
+                            let lower = lineStr.lowercased()
+                            // Pre-filter on background thread to prevent flooding the main runloop
+                            if lower.contains("pass") ||
+                               lower.contains("card") ||
+                               lower.contains("stockholm") ||
+                               lower.contains("wallet") ||
+                               lower.contains("nanopass") ||
+                               lower.contains("verificationcheck") {
+                                DispatchQueue.main.async {
+                                    AppViewModel.shared?.processSyslogLine(lineStr)
+                                }
                             }
-                        }
-                    },
-                    nil,
-                    &outError
-                )
-            }
+                        },
+                        nil,
+                        &outError
+                    )
+                }
 
-            let errStr = outError.flatMap { String(validatingUTF8: $0) }
-            if let p = outError { al_string_free(p) }
+                let errStr = outError.flatMap { String(validatingUTF8: $0) }
+                if let p = outError { al_string_free(p) }
 
-            DispatchQueue.main.async {
-                guard let vm = AppViewModel.shared else { return }
-                vm.isScanningCards = false
-                if rc != 0 {
-                    let msg = errStr ?? "rc=\(rc)"
-                    vm.scanStatusText = "Scanner stopped: \(msg)"
-                    vm.log.append("❌ Scanner error: \(msg)")
-                    vm.errorMessage = "Card scanner error: \(msg)"
-                } else {
-                    vm.scanStatusText = "Scanning stopped. Total cards: \(vm.cards.count)."
-                    vm.log.append("Scanning stopped. Total cards: \(vm.cards.count).")
+                DispatchQueue.main.async {
+                    guard let vm = AppViewModel.shared else { return }
+                    vm.isScanningCards = false
+                    if rc != 0 {
+                        let msg = errStr ?? "rc=\(rc)"
+                        vm.scanStatusText = "Scanner stopped: \(msg)"
+                        vm.log.append("❌ Scanner error: \(msg)")
+                        vm.errorMessage = "Card scanner error: \(msg)"
+                    } else {
+                        vm.scanStatusText = "Scanning stopped. Total cards: \(vm.cards.count)."
+                        vm.log.append("Scanning stopped. Total cards: \(vm.cards.count).")
+                    }
                 }
             }
+            thread.name = "AirCard.SyslogScanner"
+            thread.stackSize = 4 * 1024 * 1024 // 4 MB stack
+            thread.qualityOfService = .userInitiated
+            thread.start()
         }
-        thread.name = "AirCard.SyslogScanner"
-        thread.stackSize = 4 * 1024 * 1024 // 4 MB stack
-        thread.qualityOfService = .userInitiated
-        thread.start()
     }
 
     func stopCardScanning() {
@@ -615,6 +689,7 @@ final class AppViewModel: ObservableObject {
 
         Task.detached { [weak self] in
             guard let self = self else { return }
+            _ = await self.ensureLoopbackTunnel()
             let total = Double(selected.count)
             var successCount = 0
             for (i, card) in selected.enumerated() {
@@ -898,6 +973,7 @@ final class AppViewModel: ObservableObject {
 
         Task.detached { [weak self] in
             guard let self = self else { return }
+            _ = await self.ensureLoopbackTunnel()
 
             let stageThemeDir = FileManager.default.temporaryDirectory
                 .appendingPathComponent("airlift_passthm_\(UUID().uuidString)")
@@ -1164,6 +1240,8 @@ final class AppViewModel: ObservableObject {
             Task { @MainActor in self.isDetectingContainer = false }
         }
 
+        _ = await ensureLoopbackTunnel()
+
         do {
             let container = try await TendiesEngine.shared.detectPosterBoardContainer(pairingPath: pairingPath)
             await MainActor.run {
@@ -1191,6 +1269,8 @@ final class AppViewModel: ObservableObject {
             errorMessage = "No pairing file active. Please pair your device first."
             return
         }
+
+        _ = await ensureLoopbackTunnel()
 
         var container = posterBoardContainer.trimmingCharacters(in: .whitespacesAndNewlines)
         if container.isEmpty {

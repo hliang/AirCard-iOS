@@ -646,28 +646,71 @@ struct VPNStatusRow: View {
                     .font(.title3)
                     .foregroundStyle(vm.vpnUp ? .green : .orange)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(vm.vpnUp ? "Loopback VPN Active" : "Loopback VPN Not Detected")
+                    Text(vm.vpnUp ? "Loopback Tunnel Active" : "Loopback Tunnel Off")
                         .font(.subheadline.bold())
                     Text(vm.vpnUp
                          ? "RSD tunnel ready — exploit will connect."
-                         : "Connect LocalDevVPN before running flashes.")
+                         : "Enable the built-in tunnel, or connect LocalDevVPN.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
             }
 
+            if vm.builtInTunnelState == .unsupported {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Built-in tunnel unavailable — this build was signed without the Network Extension entitlement. Use an external VPN below.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(10)
+                .background(Color.orange.opacity(0.08))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            } else {
+                VStack(alignment: .leading, spacing: 10) {
+                    Button {
+                        vm.toggleBuiltInTunnel()
+                    } label: {
+                        HStack(spacing: 8) {
+                            if vm.builtInTunnelState == .connecting
+                                || vm.builtInTunnelState == .disconnecting {
+                                ProgressView().scaleEffect(0.8)
+                            } else {
+                                Image(systemName: vm.builtInTunnelState == .connected
+                                      ? "stop.circle.fill"
+                                      : "bolt.horizontal.circle.fill")
+                            }
+                            Text(builtInButtonTitle(vm.builtInTunnelState))
+                                .font(.subheadline.bold())
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(builtInTunnelTint(vm.builtInTunnelState))
+                    .disabled(vm.builtInTunnelState == .connecting
+                              || vm.builtInTunnelState == .disconnecting)
+
+                    Toggle(isOn: Binding(
+                        get: { vm.builtInOnDemand },
+                        set: { vm.setBuiltInOnDemand($0) }
+                    )) {
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text("On-demand")
+                                .font(.caption.bold())
+                            Text("Let iOS auto-connect this tunnel for matching traffic.")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .padding(10)
+                .background(Color.blue.opacity(0.08))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+
             if !vm.vpnUp {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Setup LocalDevVPN:")
+                    Text("Fallback: open LocalDevVPN and tap Connect.")
                         .font(.caption.bold())
-                    ForEach([
-                        "1. Open LocalDevVPN app and tap Connect.",
-                        "2. Return to AirCard-iOS — status indicator turns green."
-                    ], id: \.self) { step in
-                        Text(step)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
                     Link("Launch LocalDevVPN",
                          destination: URL(string: "localdevvpn://")!)
                         .font(.caption.bold())
@@ -709,6 +752,24 @@ struct VPNStatusRow: View {
             }
         }
         .padding(.vertical, 4)
+    }
+
+    private func builtInButtonTitle(_ state: BuiltInTunnel.State) -> String {
+        switch state {
+        case .connecting: return "Connecting…"
+        case .disconnecting: return "Stopping…"
+        case .connected: return "Disconnect Built-in Tunnel"
+        case .failed: return "Retry Built-in Tunnel"
+        default: return "Enable Built-in Tunnel"
+        }
+    }
+
+    private func builtInTunnelTint(_ state: BuiltInTunnel.State) -> Color {
+        switch state {
+        case .connected, .disconnecting: return .red
+        case .connecting: return .orange
+        default: return .accentColor
+        }
     }
 }
 
