@@ -306,7 +306,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = "-lc++";
+				OTHER_LDFLAGS = "-lc++ -Wl,-u,_ALGetGrappaToken";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
 				PRODUCT_NAME = "AirCard-iOS";
 				SDKROOT = iphoneos;
@@ -503,7 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = "-lc++";
+				OTHER_LDFLAGS = "-lc++ -Wl,-u,_ALGetGrappaToken";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID)";
 				PRODUCT_NAME = "AirCard-iOS";
 				SDKROOT = iphoneos;

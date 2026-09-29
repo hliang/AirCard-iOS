@@ -68,7 +68,10 @@ targets:
         # (which defaults to "1,2") does not override it.
         TARGETED_DEVICE_FAMILY: "1"
         # idevice's static lib pulls in C++ symbols (aws-lc); link libc++.
-        OTHER_LDFLAGS: "-lc++"
+        # `-u` force-keeps ALGetGrappaToken (GrappaHelper.m) so it survives
+        # dead-stripping in Release/archive (TestFlight). The Rust core also
+        # references it at link time now.
+        OTHER_LDFLAGS: "-lc++ -Wl,-u,_ALGetGrappaToken"
         GENERATE_INFOPLIST_FILE: NO
 
 # Shared scheme so `AirCard-iOS` is always a fixed, runnable app scheme (used by
