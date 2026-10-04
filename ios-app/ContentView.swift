@@ -907,14 +907,14 @@ struct PairingTab: View {
                 // Header
                 Section {
                     VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 8) {
+                        HStack(spacing: 4) {
                             Image(systemName: "creditcard.circle.fill")
                                 .font(.title2)
                                 .foregroundStyle(.blue)
                             Text("AirCard-iOS")
                                 .font(.title2.bold())
                             Spacer()
-                            Text("iOS \(ProcessInfo.processInfo.operatingSystemVersion.majorVersion) · \(AppInfo.version) (mod)")
+                            Text("iOS \(ProcessInfo.processInfo.operatingSystemVersion.majorVersion) · \(AppInfo.version)(mod)")
                                 .font(.caption.monospaced().bold())
                                 .padding(.horizontal, 8).padding(.vertical, 3)
                                 .background(Color.blue.opacity(0.12))
