@@ -12,7 +12,9 @@ settings:
     # Build number (CFBundleVersion). Must be unique and increase on every
     # App Store Connect upload: bump to 2, 3, 4… before each archive.
     CURRENT_PROJECT_VERSION: "1"
-    TARGETED_DEVICE_FAMILY: "1"
+    # Universal (iPhone + iPad). Must also be set per-target below, otherwise
+    # XcodeGen's iOS preset (which defaults to "1,2") overrides the base value.
+    TARGETED_DEVICE_FAMILY: "1,2"
     # AirliftFFI is arm64-only (aws-lc-rs / idevice); drop x86_64 simulator slice.
     EXCLUDED_ARCHS[sdk=iphonesimulator*]: x86_64
     CODE_SIGN_STYLE: Automatic
@@ -42,7 +44,7 @@ targets:
         INFOPLIST_FILE: TunnelProv/Info.plist
         CODE_SIGN_ENTITLEMENTS: TunnelProv/TunnelProv.entitlements
         GENERATE_INFOPLIST_FILE: NO
-        TARGETED_DEVICE_FAMILY: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
         SKIP_INSTALL: YES
 
   AirCard-iOS:
@@ -66,9 +68,9 @@ targets:
         INFOPLIST_FILE: ios-app/Info.plist
         CODE_SIGN_ENTITLEMENTS: ios-app/AirCard-iOS.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        # iPhone-only. Must be set at target level so XcodeGen's iOS preset
-        # (which defaults to "1,2") does not override it.
-        TARGETED_DEVICE_FAMILY: "1"
+        # Universal (iPhone + iPad). Set at target level so XcodeGen's iOS preset
+        # does not override it.
+        TARGETED_DEVICE_FAMILY: "1,2"
         # idevice's static lib pulls in C++ symbols (aws-lc); link libc++.
         # `-u` force-keeps ALGetGrappaToken (GrappaHelper.m) so it survives
         # dead-stripping in Release/archive (TestFlight). The Rust core also
