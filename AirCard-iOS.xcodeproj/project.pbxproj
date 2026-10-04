@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		010AC8DF1C1EED48625C6675 /* TendiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FCB10A2F3D7CEAED486771 /* TendiesModel.swift */; };
 		04C761B47467BE615DA8062D /* TunnelConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B26771D7F02A1D57FD2E9C /* TunnelConstants.swift */; };
+		0FF1D58434E94055DDCB5B39 /* TendiesEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765312E2EA1753E40AF4BC96 /* TendiesEngineTests.swift */; };
 		2298380CF8CA245F06A363A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0F9F55D9C9EC2D4AE16F004 /* Assets.xcassets */; };
 		2E97B973DB1668EBDACBCDCD /* TunnelProv.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 50163CB271AAFF785DA3F493 /* TunnelProv.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		384876C7CF02072681BAE97B /* CardPhotoCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7973589EFA26CAB585FA38 /* CardPhotoCropView.swift */; };
 		49063A6C03B1966F92F0915B /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB2FCB8D4F45B9474A81BC /* AppViewModel.swift */; };
 		56A456C4DC4A40AC7F069245 /* CIDRValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5DEF8775CFC4F4F6416934 /* CIDRValidator.swift */; };
 		5BCE478E71F6959C81AEF206 /* AirliftFFI.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEDEA9266429D393E42942F /* AirliftFFI.xcframework */; };
@@ -19,11 +21,16 @@
 		771980AD8A57F84F9D2B30DC /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30060FC4F88D7BF91C2DCD5E /* Utilities.swift */; };
 		80E5245336B574F61E0D3194 /* TendiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A416E9FC1E5258B289C6DA54 /* TendiesView.swift */; };
 		8AC8E2DE3BA40D3721CFC50D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988BAD6580C0B7784B5F4759 /* Models.swift */; };
+		971B96548A8C060D49451A65 /* CardPhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889A296267A34693E63180A8 /* CardPhotoPicker.swift */; };
 		AC3136B63574B3DA733C8214 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E001E5A3AA0793BBC1F623A7 /* ContentView.swift */; };
+		B817386F8C39A3C9CCD8B55E /* CardPhotoPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBA5065266B49EB00F3F7B7 /* CardPhotoPickerTests.swift */; };
+		C55BFA030CD02BFD7322D8FD /* WalletScanParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F43D1DAA133862032AF5C1 /* WalletScanParser.swift */; };
 		C895CD8FCB4B3A1216A10369 /* BuiltInTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E230619BE17A432A1FAF2F08 /* BuiltInTunnel.swift */; };
 		D01333FE5D76673B726EC922 /* TendiesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54463055E9590B0A928A2697 /* TendiesEngine.swift */; };
 		D1372A9BF5FAB71669756638 /* GrappaHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCEE0E39AF8DEAE3E55A456C /* GrappaHelper.m */; };
 		E2028685627EA8F9A2BF1732 /* PairingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02FDAA5E5C8719C39DA4E6C /* PairingController.swift */; };
+		E465958AA611ADD0214C4EA7 /* WalletScanParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112FEBCD1D737B123BA56116 /* WalletScanParserTests.swift */; };
+		EC47B2D4A39F0B4AF200BC68 /* CardPhotoCropTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB2EDFDBB812F08B85CA1E0 /* CardPhotoCropTests.swift */; };
 		F425EA3763995D85ABFBB99B /* RespringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744597D526DCBE3516400831 /* RespringHelper.swift */; };
 		F9068998DCDCE3A9A0763E02 /* TunnelConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B26771D7F02A1D57FD2E9C /* TunnelConstants.swift */; };
 		FAA26EB6F10C2F153BE7BB9E /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AB8B9F04DF509378C36BD0 /* PacketTunnelProvider.swift */; };
@@ -36,6 +43,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = EAB0B90ABDDCA522112714B2;
 			remoteInfo = TunnelProv;
+		};
+		DF188223AFB053072879A7FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4CA90C941CEDE8E3C534F6B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E3055F482CF438EA3978552;
+			remoteInfo = "AirCard-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -55,15 +69,22 @@
 
 /* Begin PBXFileReference section */
 		0A31F22848A9E3B541A9ADF5 /* AirCardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirCardApp.swift; sourceTree = "<group>"; };
+		0BAF5CB4017CFB028512CA02 /* AirCard-iOSTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = "AirCard-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		112FEBCD1D737B123BA56116 /* WalletScanParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletScanParserTests.swift; sourceTree = "<group>"; };
 		30060FC4F88D7BF91C2DCD5E /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		3BB2EDFDBB812F08B85CA1E0 /* CardPhotoCropTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPhotoCropTests.swift; sourceTree = "<group>"; };
 		4A5DEF8775CFC4F4F6416934 /* CIDRValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIDRValidator.swift; sourceTree = "<group>"; };
 		4FEDEA9266429D393E42942F /* AirliftFFI.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AirliftFFI.xcframework; sourceTree = "<group>"; };
 		50163CB271AAFF785DA3F493 /* TunnelProv.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TunnelProv.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		54463055E9590B0A928A2697 /* TendiesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendiesEngine.swift; sourceTree = "<group>"; };
 		55D5D94AD6F7BB50166EAAA8 /* AirCard-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "AirCard-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A7973589EFA26CAB585FA38 /* CardPhotoCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPhotoCropView.swift; sourceTree = "<group>"; };
 		6DCB2FCB8D4F45B9474A81BC /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		744597D526DCBE3516400831 /* RespringHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespringHelper.swift; sourceTree = "<group>"; };
+		765312E2EA1753E40AF4BC96 /* TendiesEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendiesEngineTests.swift; sourceTree = "<group>"; };
 		81FCB10A2F3D7CEAED486771 /* TendiesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TendiesModel.swift; sourceTree = "<group>"; };
+		84F43D1DAA133862032AF5C1 /* WalletScanParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletScanParser.swift; sourceTree = "<group>"; };
+		889A296267A34693E63180A8 /* CardPhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPhotoPicker.swift; sourceTree = "<group>"; };
 		8EF8BF3979E64C5575AD150E /* GrappaHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrappaHelper.h; sourceTree = "<group>"; };
 		920112F6B415C22F51326996 /* NetworkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatus.swift; sourceTree = "<group>"; };
 		93AB8B9F04DF509378C36BD0 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
@@ -73,6 +94,7 @@
 		B8B26771D7F02A1D57FD2E9C /* TunnelConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunnelConstants.swift; sourceTree = "<group>"; };
 		CCEE0E39AF8DEAE3E55A456C /* GrappaHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrappaHelper.m; sourceTree = "<group>"; };
 		D0F9F55D9C9EC2D4AE16F004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DBBA5065266B49EB00F3F7B7 /* CardPhotoPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPhotoPickerTests.swift; sourceTree = "<group>"; };
 		E001E5A3AA0793BBC1F623A7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E230619BE17A432A1FAF2F08 /* BuiltInTunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInTunnel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,11 +128,23 @@
 			path = TunnelProv;
 			sourceTree = "<group>";
 		};
+		71F8FC34C4EB6BD99DF81149 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				3BB2EDFDBB812F08B85CA1E0 /* CardPhotoCropTests.swift */,
+				DBBA5065266B49EB00F3F7B7 /* CardPhotoPickerTests.swift */,
+				765312E2EA1753E40AF4BC96 /* TendiesEngineTests.swift */,
+				112FEBCD1D737B123BA56116 /* WalletScanParserTests.swift */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
 		7DE42E877138754E1F23B522 = {
 			isa = PBXGroup;
 			children = (
 				D6E48EFDA14D810D89B9AE80 /* ios-app */,
 				0536AC7226D3E82F0BF3CE51 /* Shared */,
+				71F8FC34C4EB6BD99DF81149 /* tests */,
 				072238BD44C1CD650B53BA4F /* TunnelProv */,
 				9FDAAD9F5D759830173419E8 /* Frameworks */,
 				98B69CB24A85E2DF841DC0E0 /* Products */,
@@ -121,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				55D5D94AD6F7BB50166EAAA8 /* AirCard-iOS.app */,
+				0BAF5CB4017CFB028512CA02 /* AirCard-iOSTests.xctest */,
 				50163CB271AAFF785DA3F493 /* TunnelProv.appex */,
 			);
 			name = Products;
@@ -141,6 +176,8 @@
 				6DCB2FCB8D4F45B9474A81BC /* AppViewModel.swift */,
 				D0F9F55D9C9EC2D4AE16F004 /* Assets.xcassets */,
 				E230619BE17A432A1FAF2F08 /* BuiltInTunnel.swift */,
+				5A7973589EFA26CAB585FA38 /* CardPhotoCropView.swift */,
+				889A296267A34693E63180A8 /* CardPhotoPicker.swift */,
 				E001E5A3AA0793BBC1F623A7 /* ContentView.swift */,
 				8EF8BF3979E64C5575AD150E /* GrappaHelper.h */,
 				CCEE0E39AF8DEAE3E55A456C /* GrappaHelper.m */,
@@ -152,6 +189,7 @@
 				81FCB10A2F3D7CEAED486771 /* TendiesModel.swift */,
 				A416E9FC1E5258B289C6DA54 /* TendiesView.swift */,
 				30060FC4F88D7BF91C2DCD5E /* Utilities.swift */,
+				84F43D1DAA133862032AF5C1 /* WalletScanParser.swift */,
 			);
 			path = "ios-app";
 			sourceTree = "<group>";
@@ -179,6 +217,24 @@
 			productName = "AirCard-iOS";
 			productReference = 55D5D94AD6F7BB50166EAAA8 /* AirCard-iOS.app */;
 			productType = "com.apple.product-type.application";
+		};
+		427AB1BA2DCF12274F492C53 /* AirCard-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A63BEF1882237F47B613F964 /* Build configuration list for PBXNativeTarget "AirCard-iOSTests" */;
+			buildPhases = (
+				047691B25FD773E49D129B2C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9A26B7C98D061F2580339C7A /* PBXTargetDependency */,
+			);
+			name = "AirCard-iOSTests";
+			packageProductDependencies = (
+			);
+			productName = "AirCard-iOSTests";
+			productReference = 0BAF5CB4017CFB028512CA02 /* AirCard-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		EAB0B90ABDDCA522112714B2 /* TunnelProv */ = {
 			isa = PBXNativeTarget;
@@ -210,6 +266,10 @@
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
+					427AB1BA2DCF12274F492C53 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 					EAB0B90ABDDCA522112714B2 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
@@ -232,6 +292,7 @@
 			targets = (
 				EAB0B90ABDDCA522112714B2 /* TunnelProv */,
 				0E3055F482CF438EA3978552 /* AirCard-iOS */,
+				427AB1BA2DCF12274F492C53 /* AirCard-iOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -248,6 +309,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		047691B25FD773E49D129B2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC47B2D4A39F0B4AF200BC68 /* CardPhotoCropTests.swift in Sources */,
+				B817386F8C39A3C9CCD8B55E /* CardPhotoPickerTests.swift in Sources */,
+				0FF1D58434E94055DDCB5B39 /* TendiesEngineTests.swift in Sources */,
+				E465958AA611ADD0214C4EA7 /* WalletScanParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1DE70D600815D8A29F00559D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -265,6 +337,8 @@
 				668FC8BDB3F10AEBFB427382 /* AirCardApp.swift in Sources */,
 				49063A6C03B1966F92F0915B /* AppViewModel.swift in Sources */,
 				C895CD8FCB4B3A1216A10369 /* BuiltInTunnel.swift in Sources */,
+				384876C7CF02072681BAE97B /* CardPhotoCropView.swift in Sources */,
+				971B96548A8C060D49451A65 /* CardPhotoPicker.swift in Sources */,
 				AC3136B63574B3DA733C8214 /* ContentView.swift in Sources */,
 				D1372A9BF5FAB71669756638 /* GrappaHelper.m in Sources */,
 				8AC8E2DE3BA40D3721CFC50D /* Models.swift in Sources */,
@@ -276,6 +350,7 @@
 				80E5245336B574F61E0D3194 /* TendiesView.swift in Sources */,
 				04C761B47467BE615DA8062D /* TunnelConstants.swift in Sources */,
 				771980AD8A57F84F9D2B30DC /* Utilities.swift in Sources */,
+				C55BFA030CD02BFD7322D8FD /* WalletScanParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +361,11 @@
 			isa = PBXTargetDependency;
 			target = EAB0B90ABDDCA522112714B2 /* TunnelProv */;
 			targetProxy = 53CF9EEE2C41DE298610A641 /* PBXContainerItemProxy */;
+		};
+		9A26B7C98D061F2580339C7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E3055F482CF438EA3978552 /* AirCard-iOS */;
+			targetProxy = DF188223AFB053072879A7FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -468,6 +548,40 @@
 			};
 			name = Debug;
 		};
+		4824148D1E47D58E076CE006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AirCard-iOS.app/AirCard-iOS";
+			};
+			name = Release;
+		};
+		9C1008148026BAEB16C6A8D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_ID).tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AirCard-iOS.app/AirCard-iOS";
+			};
+			name = Debug;
+		};
 		9CBD3A74E2E6C105A0B62046 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -537,6 +651,15 @@
 			buildConfigurations = (
 				4252B1951FEF5FEBB33F0830 /* Debug */,
 				3590F1871D018E2B0817D329 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A63BEF1882237F47B613F964 /* Build configuration list for PBXNativeTarget "AirCard-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C1008148026BAEB16C6A8D1 /* Debug */,
+				4824148D1E47D58E076CE006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -9,11 +9,42 @@ import CoreTransferable
 struct CardItem: Identifiable, Equatable {
     let id: String
     var isSelected: Bool = true
+    var displayName: String? = nil
+    var paymentNetwork: String? = nil
+    var isVerified: Bool = true
     var customImageData: Data? = nil  // Primary PNG data (1536x969)
     var customImage: UIImage? = nil   // Fast cached UIImage for display
 
+    init(
+        id: String,
+        displayName: String? = nil,
+        paymentNetwork: String? = nil,
+        isSelected: Bool = true,
+        isVerified: Bool = true,
+        customImageData: Data? = nil,
+        customImage: UIImage? = nil
+    ) {
+        self.id = id
+        self.displayName = displayName
+        self.paymentNetwork = paymentNetwork
+        self.isSelected = isSelected
+        self.isVerified = isVerified
+        self.customImageData = customImageData
+        self.customImage = customImage
+    }
+
     var uiImage: UIImage? {
         customImage ?? (customImageData.flatMap { UIImage(data: $0) })
+    }
+
+    var title: String {
+        if let name = displayName, !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return name
+        }
+        if let net = paymentNetwork, !net.isEmpty {
+            return net.hasSuffix("Card") ? net : "\(net) Card"
+        }
+        return "Payment Card"
     }
 
     /// Normalizes and cleans a card identifier, stripping paths, extensions (.pkpass, .cache),
@@ -42,6 +73,9 @@ struct CardItem: Identifiable, Equatable {
     static func == (lhs: CardItem, rhs: CardItem) -> Bool {
         lhs.id == rhs.id &&
         lhs.isSelected == rhs.isSelected &&
+        lhs.displayName == rhs.displayName &&
+        lhs.paymentNetwork == rhs.paymentNetwork &&
+        lhs.isVerified == rhs.isVerified &&
         lhs.customImage === rhs.customImage &&
         (lhs.customImageData?.count == rhs.customImageData?.count)
     }
@@ -590,7 +624,7 @@ enum PasscodeThemePackager {
         var d = Data()
         d.appendLE32(0x04034b50)   // Local file header signature
         d.appendLE16(20)           // Version needed: 2.0
-        d.appendLE16(0)            // Flags
+        d.appendLE16(0x0800)       // Flags: UTF-8 file names (bit 11)
         d.appendLE16(0)            // Compression: stored
         d.appendLE16(0)            // Last mod time
         d.appendLE16(0)            // Last mod date
@@ -610,7 +644,7 @@ enum PasscodeThemePackager {
         d.appendLE32(0x02014b50)   // Central dir file header signature
         d.appendLE16(20)           // Version made by
         d.appendLE16(20)           // Version needed
-        d.appendLE16(0)            // Flags
+        d.appendLE16(0x0800)       // Flags: UTF-8 file names (bit 11)
         d.appendLE16(0)            // Compression: stored
         d.appendLE16(0)            // Last mod time
         d.appendLE16(0)            // Last mod date

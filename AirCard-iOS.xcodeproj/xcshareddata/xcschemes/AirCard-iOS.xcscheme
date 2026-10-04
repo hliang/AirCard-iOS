@@ -39,6 +39,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "427AB1BA2DCF12274F492C53"
+               BuildableName = "AirCard-iOSTests.xctest"
+               BlueprintName = "AirCard-iOSTests"
+               ReferencedContainer = "container:AirCard-iOS.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

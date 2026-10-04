@@ -74,9 +74,18 @@ targets:
         OTHER_LDFLAGS: "-lc++ -Wl,-u,_ALGetGrappaToken"
         GENERATE_INFOPLIST_FILE: NO
 
-# Shared scheme so `AirCard-iOS` is always a fixed, runnable app scheme (used by
-# build-ipa.sh and Xcode). Prevents accidentally running the TunnelProv
-# extension scheme, which would prompt for a host app.
+  AirCard-iOSTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: tests
+    dependencies:
+      - target: AirCard-iOS
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: "$(APP_BUNDLE_ID).tests"
+
 schemes:
   AirCard-iOS:
     build:
@@ -86,10 +95,11 @@ schemes:
       config: Debug
     test:
       config: Debug
+      targets:
+        - AirCard-iOSTests
     profile:
       config: Release
     analyze:
       config: Debug
     archive:
       config: Release
-
