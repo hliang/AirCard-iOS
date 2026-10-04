@@ -3,6 +3,18 @@ import AVFAudio
 import CoreLocation
 import Network
 
+// MARK: - App version info
+
+/// Reads the bundle's version metadata so the UI does not hardcode it.
+enum AppInfo {
+    static var version: String {
+        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?"
+    }
+    static var build: String {
+        (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "?"
+    }
+}
+
 // MARK: - Keep-alive (audio + optional location)
 
 /// Keeps the app running in the background while the user approves the pairing
